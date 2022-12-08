@@ -1,10 +1,12 @@
 import pygame
+from dino_runner.components.text import Text
 from dino_runner.utils.constants import FONT_STYLE
 
 
 class Score:
     def __init__(self):
         self.current_score = 0
+        self.text = Text(30)
 
     def update(self, game):
         self.current_score += 1
@@ -12,8 +14,5 @@ class Score:
             game.game_speed += 2
 
     def draw(self, screen):
-        font = pygame.font.Font(FONT_STYLE, 30)
-        message = font.render(f"Score {self.current_score}", True, (0, 0, 0))
-        message_rect = message.get_rect()
-        message_rect.center = (1000, 50)       
-        screen.blit(message, message_rect)
+        self.text.draw_text(f"Score {self.current_score}", 1000, 50, screen)
+        

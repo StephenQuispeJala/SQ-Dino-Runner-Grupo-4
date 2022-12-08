@@ -2,8 +2,8 @@ import pygame
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.obstacles.obstacles_manager import ObsctaclesManager
 from dino_runner.components.score import Score
+from dino_runner.components.text import Text
 from dino_runner.utils.constants import BG, DINO_START, FONT_STYLE, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
-
 
 class Game:
     def __init__(self):
@@ -20,17 +20,17 @@ class Game:
         self.player = Dinosaur()
         self.obstacle_manager = ObsctaclesManager()
         self.score = Score()
+        self.text = Text(30)
         self.death_count = 0
 
         self.executing = False
 
     def execute(self):
-        self.executing = True
+        self.executing = True        
         while self.executing:
             if not self.playing:
                 self.show_menu()
-            self.execute()    
-
+              
         pygame.quit()    
 
     def run(self):
@@ -74,9 +74,6 @@ class Game:
             
         self.x_pos_bg -= self.game_speed
 
-    def draw_score(self):
-        pass
-
     def show_menu(self):
     # Poner color al fondo
         self.screen.fill((255, 255, 255))
@@ -84,20 +81,13 @@ class Game:
         half_screen_width = SCREEN_WIDTH // 2
         half_screen_height = SCREEN_HEIGHT // 2
         if not self.death_count:
-            
-            font = pygame.font.Font(FONT_STYLE, 30)
-            message = font.render("Press Any Key To Start", True, (0, 0, 0))
-            message_rect = message.get_rect()
-            message_rect.center = (half_screen_width, half_screen_height)       
-            self.screen.blit(message, message_rect)
+            self.text.draw_text("Press Any Key To Continue", half_screen_width, half_screen_height, self.screen)
         else:
-            # Tarea
-            # Mostrar puntos obtenidos
-            # Mostrar mensaje de reinicio
-            # mosrar muertes totales
-            print(self.death_count)    
+            self.text.draw_text("Press Any Key To Restart", half_screen_width, half_screen_height, self.screen)
+            self.text.draw_text(f"Score {self.score.current_score}      Total Death {self.death_count}", half_screen_width, half_screen_height + 50, self.screen)
+            
     # Mostrar imagen como icono
-        self.screen.blit(DINO_START, (half_screen_width - 20, half_screen_height - 140))      
+        self.screen.blit(DINO_START, (half_screen_width - 40, half_screen_height - 140))      
     # Actualizar pantalla
         pygame.display.flip()
     # Manejar eventos    

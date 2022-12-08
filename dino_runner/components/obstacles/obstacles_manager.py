@@ -22,8 +22,6 @@ class ObsctaclesManager:
             elif number % 3 == 0:
                 self.obstacles.append(Bird(self.Y_POS_BIRD))
             
-                
-
         for obstacle in self.obstacles:
             obstacle.update(game.game_speed, self.obstacles)
             if game.player.dino_rect.colliderect(obstacle.rect):
